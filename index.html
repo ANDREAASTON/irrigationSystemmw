@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Irrigation Monitor — Login</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="login-page">
+
+  <div class="login-wrap">
+
+    <!-- Brand / Logo -->
+    <div class="login-brand">
+      <span class="logo-icon">🌿</span>
+      <h1>Irrigation Monitor</h1>
+      <p>Raspberry Pi · Supabase · Real-time</p>
+    </div>
+
+    <!-- Login Card -->
+    <div class="login-card">
+
+      <!-- Error message area (hidden by default) -->
+      <div id="errorMsg" class="msg-error" style="display:none"></div>
+
+      <!-- Info message area (hidden by default) -->
+      <div id="infoMsg" class="msg-info" style="display:none"></div>
+
+      <!-- Login Form -->
+      <div id="loginForm">
+        <div class="form-group">
+          <label for="loginEmail">Email</label>
+          <input
+            type="email"
+            id="loginEmail"
+            placeholder="you@example.com"
+            autocomplete="email"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input
+            type="password"
+            id="loginPassword"
+            placeholder="••••••••"
+            autocomplete="current-password"
+          />
+        </div>
+
+        <button class="btn btn-primary" id="loginBtn" onclick="handleLogin()">
+          Login
+        </button>
+
+        <p class="login-footer">
+          Don't have an account?
+          <a href="#" onclick="showSignup()">Sign up</a>
+        </p>
+      </div>
+
+      <!-- Sign Up Form (hidden by default) -->
+      <div id="signupForm" style="display:none">
+        <div class="form-group">
+          <label for="signupEmail">Email</label>
+          <input
+            type="email"
+            id="signupEmail"
+            placeholder="you@example.com"
+            autocomplete="email"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="signupPassword">Password</label>
+          <input
+            type="password"
+            id="signupPassword"
+            placeholder="Min. 6 characters"
+            autocomplete="new-password"
+          />
+        </div>
+
+        <button class="btn btn-primary" id="signupBtn" onclick="handleSignup()">
+          Create Account
+        </button>
+
+        <p class="login-footer">
+          Already have an account?
+          <a href="#" onclick="showLogin()">Login</a>
+        </p>
+      </div>
+
+    </div>
+    <!-- /login-card -->
+
+  </div>
+
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- App logic -->
+  <script src="app.js"></script>
+
+</body>
+</html>

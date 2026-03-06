@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Irrigation Monitor — Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <span class="logo-icon">🌿</span>
+    <div class="loading-bar"></div>
+  </div>
+
+  <!-- Dashboard Layout (hidden until auth confirmed) -->
+  <div class="dash-layout hidden" id="dashLayout">
+
+    <!-- Top Bar -->
+    <header class="topbar">
+      <div class="topbar-brand">
+        <span class="icon">🌿</span>
+        <span class="label">Irrigation Monitor</span>
+      </div>
+      <div class="topbar-right">
+        <div class="live-dot" id="liveStatus">LIVE</div>
+        <button class="btn-logout" onclick="handleLogout()">Logout</button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="dash-main">
+
+      <!-- KPI Section Header -->
+      <div class="section-header">
+        <span class="section-title">Current Readings</span>
+        <div class="section-line"></div>
+      </div>
+
+      <!-- KPI Cards Grid -->
+      <div class="kpi-grid">
+
+        <!-- Moisture % -->
+        <div class="kpi-card">
+          <span class="kpi-icon">💧</span>
+          <div class="kpi-label">Soil Moisture</div>
+          <div class="kpi-value" id="kpiMoisture">
+            --<span class="unit">%</span>
+          </div>
+          <div class="kpi-sub" id="kpiMoistureStatus">—</div>
+        </div>
+
+        <!-- Pump State -->
+        <div class="kpi-card">
+          <span class="kpi-icon">⚙️</span>
+          <div class="kpi-label">Pump</div>
+          <div class="kpi-value" id="kpiPump" style="font-size:1.5rem; padding-top:0.3rem;">--</div>
+          <div class="kpi-sub" id="kpiPumpSub">—</div>
+        </div>
+
+        <!-- Distance -->
+        <div class="kpi-card">
+          <span class="kpi-icon">📡</span>
+          <div class="kpi-label">Distance</div>
+          <div class="kpi-value" id="kpiDistance">
+            --<span class="unit">cm</span>
+          </div>
+          <div class="kpi-sub" id="kpiDetected">—</div>
+        </div>
+
+        <!-- Red LED -->
+        <div class="kpi-card">
+          <span class="kpi-icon">🔴</span>
+          <div class="kpi-label">Red LED (GPIO 27)</div>
+          <div class="kpi-value" style="font-size:1.4rem; padding-top:0.3rem;">
+            <span class="led-indicator">
+              <span class="led-dot" id="redLedDot"></span>
+              <span id="redLedText">--</span>
+            </span>
+          </div>
+          <div class="kpi-sub" style="color:var(--text-dim)">Object &lt; 10cm</div>
+        </div>
+
+        <!-- Green LED -->
+        <div class="kpi-card">
+          <span class="kpi-icon">🟢</span>
+          <div class="kpi-label">Green LED (GPIO 17)</div>
+          <div class="kpi-value" style="font-size:1.4rem; padding-top:0.3rem;">
+            <span class="led-indicator">
+              <span class="led-dot" id="greenLedDot"></span>
+              <span id="greenLedText">--</span>
+            </span>
+          </div>
+          <div class="kpi-sub" style="color:var(--text-dim)">Object ≥ 10cm</div>
+        </div>
+
+        <!-- Last Updated -->
+        <div class="kpi-card">
+          <span class="kpi-icon">🕐</span>
+          <div class="kpi-label">Last Update</div>
+          <div class="kpi-value" style="font-size:0.95rem; padding-top:0.5rem; color:var(--text-muted)" id="kpiTimestamp">--</div>
+          <div class="kpi-sub" style="color:var(--text-dim)">Raspberry Pi</div>
+        </div>
+
+      </div>
+      <!-- /kpi-grid -->
+
+      <!-- Chart + Table Row -->
+      <div class="dash-bottom">
+
+        <!-- Moisture Chart Panel -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Moisture History (last 20 readings)</span>
+          </div>
+          <canvas id="moistureChart"></canvas>
+        </div>
+
+        <!-- Recent Readings Table Panel -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Recent Readings</span>
+          </div>
+          <div style="overflow-x:auto; max-height: 260px; overflow-y:auto;">
+            <table class="readings-table">
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Moisture</th>
+                  <th>Status</th>
+                  <th>Pump</th>
+                  <th>Dist.</th>
+                </tr>
+              </thead>
+              <tbody id="readingsBody">
+                <tr>
+                  <td colspan="5" style="text-align:center; color:var(--text-dim)">Loading…</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+      <!-- /dash-bottom -->
+
+      <div class="last-updated">
+        Auto-refresh every 5 seconds · Supabase Realtime
+      </div>
+
+    </main>
+  </div>
+  <!-- /dash-layout -->
+
+  <!-- CDN Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <!-- Dashboard Logic -->
+  <script src="dashboard.js"></script>
+
+</body>
+</html>
